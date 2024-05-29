@@ -65,6 +65,9 @@ db.sqlite3-journal
 instance/
 .webassets-cache
 
+# Selenium webdriver:
+chromedriver-win64
+
 # Scrapy stuff:
 .scrapy
 
