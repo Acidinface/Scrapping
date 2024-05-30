@@ -1,9 +1,8 @@
 from selenium import webdriver
 
-website = 'https://www.adamchoi.co.uk/overs/detailed'
-driver_path = r'Users/Scrapping/chromedriver-win64/chromedriver'
+website = 'https://www.audible.co.uk/search'
 
-driver = webdriver.Chrome(driver_path)
+driver = webdriver.Chrome()
 response = driver.get(website)
 
-
+list_of_books = response.find_element()
