@@ -1,8 +1,12 @@
+import time
 from selenium import webdriver
 
 website = 'https://www.audible.co.uk/search'
 
 driver = webdriver.Chrome()
-response = driver.get(website)
-
-list_of_books = response.find_element()
+driver.get(website)
+main_list = driver.find_element(by='xpath', value="//div[contains(@class, 'adbl-impression-container')]//ul[contains(@class, 'bc-list')]")
+list_of_books = main_list.find_elements(by='xpath', value='//li[contains(@class, "bc-list-item")]')
+for book in list_of_books:
+    print(book.text)
+time.sleep(3600)
