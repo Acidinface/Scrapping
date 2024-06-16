@@ -10,26 +10,25 @@ class AudiblespiderSpider(scrapy.Spider):
         book_list = response.xpath('//div[@class="adbl-impression-container "]/div/span/ul/li')
         for book in book_list:
             title = book.xpath('.//h3/a/text()').get()
-            author = book.xpath('.//li[contains(@class, "author")]/text()').getall()
-            break
-            narrator = book.xpath('.//li[contains(@class, "narrator")]/text()').getall()
-            series = book.xpath('.//li[contains(@class, "series")]/text()').getall()
-            length = book.xpath('.//li[contains(@class, "runtime")]/text()').getall()
-            release = book.xpath('.//li[contains(@class, "release")]/text()').getall()
-            language = book.xpath('.//li[contains(@class, "language")]/text()').getall()
-            rating = book.xpath('.//li[contains(@class, "rating")]/text()').getall()
-            popular = book.xpath('.//li[contains(@class, "mostPopular")]/text()').getall()
-            trending = book.xpath('.//li[contains(@class, "trending")]/text()').getall()
+            author = book.xpath('.//li[contains(@class, "author")]/span/a/text()').getall()
+            narrator = book.xpath('.//li[contains(@class, "narrator")]/span/a/text()').getall()
+            series = list(map(lambda b: b.replace('Series:', '').strip(),book.xpath('.//li[contains(@class, "series")]/span/a/text()').getall()))
+            length = book.xpath('.//li[contains(@class, "runtime")]/span/text()').get().replace('Length: ', '')
+            release = book.xpath('.//li[contains(@class, "release")]/span/text()').get().replace('Release date:', '').strip()
+            language = book.xpath('.//li[contains(@class, "language")]/span/text()').get().replace('Language:', '').strip()
+            rating = book.xpath('.//li[contains(@class, "rating")]/span/text()').get()
+            popular = bool(book.xpath('.//li[contains(@class, "mostPopular")]/span/text()').get())
+            trending = bool(book.xpath('.//li[contains(@class, "trending")]/span/text()').get())
 
-        yield {
-            'title': title,
-            'author': author,
-            # 'narrator': narrator,
-            # 'series': series,
-            # 'length': length,
-            # 'release': release,
-            # 'language': language,
-            # 'rating': rating,
-            # 'popular': popular,
-            # 'trending': trending,
-        }
+            yield {
+                'title': title,
+                'author': author,
+                'narrator': narrator,
+                'series': series,
+                'length': length,
+                'release': release,
+                'language': language,
+                'rating': rating,
+                'popular': popular,
+                'trending': trending,
+            }
