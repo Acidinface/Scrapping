@@ -19,9 +19,11 @@ class AudiblespiderSpider(scrapy.Spider):
             rating = book.xpath('.//li[contains(@class, "rating")]/span/text()').get()
             popular = bool(book.xpath('.//li[contains(@class, "mostPopular")]/span/text()').get())
             trending = bool(book.xpath('.//li[contains(@class, "trending")]/span/text()').get())
+            price = book.xpath('//p[contains(@id,"buybox-regular-price")]/span[2]/text()').get().strip()
 
             yield {
                 'title': title,
+                'price': price,
                 'author': author,
                 'narrator': narrator,
                 'series': series,
@@ -32,3 +34,8 @@ class AudiblespiderSpider(scrapy.Spider):
                 'popular': popular,
                 'trending': trending,
             }
+
+        next_page_url = response.xpath('//ul[contains(@class, "pagingElements")]/li/span[contains(@class, "nextButton")]/a/@href').get()
+
+        if next_page_url:
+            yield response.follow(url=next_page_url, callback=self.parse)
