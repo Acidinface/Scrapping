@@ -16,9 +16,10 @@ class ScriptcrawlspiderSpider(CrawlSpider):
 
     def parse_item(self, response):
         article = response.xpath("//article[@class='main-article']")
+        script_str = ' '.join(article.xpath("./div[@class='full-script']/text()").getall())
         yield {
             'title': article.xpath("./h1/text()").get()[:-18],
             'plot': article.xpath("./p/text()").get(),
-            'script': article.xpath("./div[@class='full-script']/text()").getall(),
+            'script': script_str,
             'url': response.url,
         }
