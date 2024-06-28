@@ -11,12 +11,13 @@ import sqlite3
 from itemadapter import ItemAdapter
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+from secrets import mongo_uri
 
 
 
 class MongodbPipeline:
     collection_name = 'transcripts'
-    uri = "mongodb+srv://sit4everacab:sit4everacab@cluster0.sxqt7qt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    uri = mongo_uri
 
     def open_spider(self, spider):
         try:
