@@ -50,9 +50,40 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    "jobscraper.middlewares.JobscraperDownloaderMiddleware": 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+   "jobscraper.middlewares.JobscraperDownloaderMiddleware": 543,
+   'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+   'scrapy_user_agents.middlewares.RandomUserAgentMiddleware': 400,
+   'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
+   'scrapy_proxy_pool.middlewares.BanDetectionMiddleware': 620,
+   'scrapy_proxy_pool.middlewares.ProxyPoolMiddleware': 610,
+}
+
+# Configure a delay for requests
+DOWNLOAD_DELAY = 2  # 2 seconds delay between requests
+
+# Enable randomization of download delay
+RANDOMIZE_DOWNLOAD_DELAY = True
+
+# Configure your proxy pool settings
+PROXY_POOL_ENABLED = True
+PROXY_POOL_BAN_POLICY = 'jobscraper.custom_policy.CustomBanDetectionPolicy'
+
+# Configure maximum concurrent requests performed by Scrapy
+CONCURRENT_REQUESTS = 16
+
+# Configure a delay for requests for the same website
+CONCURRENT_REQUESTS_PER_DOMAIN = 8
+CONCURRENT_REQUESTS_PER_IP = 8
+
+# Disable retrying to avoid bans
+RETRY_TIMES = 10
+
+# Retry on most common codes
+RETRY_HTTP_CODES = [500, 502, 503, 504, 522, 524, 408, 429]
+
+# Timeout for DNS lookup
+DOWNLOAD_TIMEOUT = 10
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html

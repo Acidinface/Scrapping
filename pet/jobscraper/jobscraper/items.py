@@ -8,11 +8,16 @@ import scrapy
 
 class JobItem(scrapy.Item):
     title = scrapy.Field()
-    salary = scrapy.Field()
-    company = scrapy.Field()
     city = scrapy.Field()
     url = scrapy.Field()
-    description = scrapy.Field()
+    details = scrapy.Field()
+    
 
 class JobDetails(scrapy.Item):
     address = scrapy.Field()
+    salary = scrapy.Field()
+    company = scrapy.Field()
+    company_link = scrapy.Field()
+    job_type = scrapy.Field()
+    tags = scrapy.Field()
+    description = scrapy.Field()
