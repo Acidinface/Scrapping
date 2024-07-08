@@ -130,12 +130,17 @@ celerybeat.pid
 # Environments
 .env
 .venv
+.venv/
+.venv/.
 env/
 venv/
 ENV/
 env.bak/
 venv.bak/
 learningenv/
+pet/job_analysis_env
+pet/job_analysis_env
+pet/job_analysis_env/.
 
 # Spyder project settings
 .spyderproject
