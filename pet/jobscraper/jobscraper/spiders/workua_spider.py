@@ -1,4 +1,4 @@
-import scrapy
+import scrapy # type: ignore
 import logging
 from jobscraper.items import JobItem, JobDetails
 
