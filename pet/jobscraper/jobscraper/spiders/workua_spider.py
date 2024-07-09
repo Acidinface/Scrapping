@@ -35,15 +35,11 @@ class WorkuaSpiderSpider(scrapy.Spider):
         details = JobDetails()
 
         details['salary'] = response.css('[title="Зарплата"] + span::text').get()
-        if details['salary']:
-            details['salary'] = details['salary'].replace('\u202f', '').replace('\xa0', '').replace('\u2009', '').strip()[:-3].split('–')
         details['company'] = response.css('[title="Дані про компанію"] + a span::text').get()
-        details['company_link'] = "https://www.work.ua" + response.css('[title="Дані про компанію"] + a::attr(href)').get()
-        details['address'] = address.replace('\n', '').strip() if (address:=response.xpath('//li[span[@title="Адреса роботи"]]/text()[2]').get()) else None
-        details['job_type'] = response.xpath('//li[span[@title="Умови й вимоги"]]/text()[2]').get().replace('\n', '').strip()
+        details['company_link'] = response.css('[title="Дані про компанію"] + a::attr(href)').get()
+        details['address'] = response.xpath('//li[span[@title="Адреса роботи"]]/text()[2]').get()
+        details['job_type'] = response.xpath('//li[span[@title="Умови й вимоги"]]/text()[2]').get()
         details['tags'] = response.css('.flex.flex-wrap.list-unstyled.w-100.my-0.pb-0.toggle-block.overflow.block-relative.js-toggle-block li span::text').getall()
-        description = response.css('[class="company-description"] *::text').getall()
-        description = " ".join(list(map(lambda x: x.replace('\n', '').strip(), description)))
-        details['description'] = description.strip()
+        details['description'] = response.css('[class="company-description"] *::text').getall()
         item['details'] = details
         yield item
