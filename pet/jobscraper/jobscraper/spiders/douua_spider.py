@@ -7,4 +7,4 @@ class DouuaSpiderSpider(scrapy.Spider):
     start_urls = ["https://jobs.dou.ua/vacancies/"]
 
     def parse(self, response):
-        pass
+        job_list = response.css('#vacancyListId > ul li')
