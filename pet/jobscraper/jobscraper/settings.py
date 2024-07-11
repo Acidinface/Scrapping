@@ -17,7 +17,7 @@ NEWSPIDER_MODULE = "jobscraper.spiders"
 #USER_AGENT = "jobscraper (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -57,6 +57,7 @@ DOWNLOADER_MIDDLEWARES = {
    'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
    'scrapy_proxy_pool.middlewares.BanDetectionMiddleware': 620,
    'scrapy_proxy_pool.middlewares.ProxyPoolMiddleware': 610,
+   'scrapy_selenium.SeleniumMiddleware': 800,
 }
 
 # Configure a delay for requests
@@ -80,10 +81,16 @@ CONCURRENT_REQUESTS_PER_IP = 8
 RETRY_TIMES = 10
 
 # Retry on most common codes
-RETRY_HTTP_CODES = [500, 502, 503, 504, 522, 524, 408, 429]
+RETRY_HTTP_CODES = [500, 502, 503, 504, 522, 524, 408, 429, 403, 404]
 
 # Timeout for DNS lookup
 DOWNLOAD_TIMEOUT = 10
+
+from shutil import which
+
+SELENIUM_DRIVER_NAME = 'chrome'
+SELENIUM_DRIVER_EXECUTABLE_PATH = which('chromedriver')
+SELENIUM_DRIVER_ARGUMENTS = ['--headless']
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -93,9 +100,9 @@ DOWNLOAD_TIMEOUT = 10
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {
-   'jobscraper.pipelines.JobscraperPipeline': 300,
-}
+# ITEM_PIPELINES = {
+#    'jobscraper.pipelines.JobscraperPipeline': 300,
+# }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
